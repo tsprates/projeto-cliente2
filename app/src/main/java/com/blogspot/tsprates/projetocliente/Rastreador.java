@@ -33,6 +33,7 @@ public class Rastreador implements View.OnClickListener, LocationListener, Googl
     private Double longitude;
     private Messagem msg;
     private Telefone tel;
+    private Marker marcador;
 
     public Rastreador(Activity a, GoogleMap mapa, Messagem msg, Telefone tel) {
         this.mapa = mapa;
@@ -68,8 +69,8 @@ public class Rastreador implements View.OnClickListener, LocationListener, Googl
 
 
     public void onLocationChanged(Location location) {
-        this.latitude = Double.valueOf(location.getLatitude());
-        this.longitude = Double.valueOf(location.getLongitude());
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
 
         LatLng ponto = new LatLng(this.latitude.doubleValue(), this.longitude.doubleValue());
         CameraUpdate camera = CameraUpdateFactory.newLatLngZoom(ponto, 15.0F);
@@ -85,7 +86,10 @@ public class Rastreador implements View.OnClickListener, LocationListener, Googl
                     .title("Clique no marcador para enviar sua posição.")
                     .snippet(endereco);
             this.mapa.clear();
-            this.mapa.addMarker(marcador).showInfoWindow();
+
+            this.marcador = this.mapa.addMarker(marcador);
+            this.marcador.showInfoWindow();
+
             this.mapa.setOnMarkerClickListener(this);
         }
     }
@@ -130,7 +134,11 @@ public class Rastreador implements View.OnClickListener, LocationListener, Googl
         if (this.latitude == null && this.longitude == null) {
             msg.mostra("Erro", "Desculpe, não foi possível obter a longitude e latitude.");
         } else {
-            (new ConexaoHttpAsyncTask(activity)).execute(new String[]{"http://tracking.comoj.com/postdata.php", "" + this.latitude, "" + this.longitude, tel.getIMEI(), "teste"});
+            (new ConexaoHttpAsyncTask(activity)).execute(Config.URL_SERVIDOR,
+                    "" + this.latitude,
+                    "" + this.longitude,
+                    tel.getIMEI(),
+                    Config.API_KEY);
         }
 
     }
@@ -138,6 +146,10 @@ public class Rastreador implements View.OnClickListener, LocationListener, Googl
     @Override
     public void onClick(View v) {
         this.fazCheckIn();
+
+        if (marcador != null && !marcador.isInfoWindowShown()) {
+            marcador.showInfoWindow();
+        }
     }
 }
 

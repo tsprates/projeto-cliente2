@@ -19,10 +19,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Messagem messagem;
     private Rastreador rastreador;
 
-
-    private static final String URL_SERVIDOR = "http://tracking.comoj.com/postdata.php";
-    private static final String API_KEY = "teste";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +48,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
 
+        mapa.setMyLocationEnabled(true);
         mapa.getUiSettings().setZoomControlsEnabled(true);
-        mapa.getUiSettings().setMyLocationButtonEnabled(true);
 
         messagem.mostra("AVISO", "Clique no marcador para enviar as coordenadas de longitude e latitude.");
 
-
-        LatLng latLng = new LatLng(-16.7286406, -43.8582139);
-        mapa.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//        Location loc = mapa.getMyLocation();
+//        LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
+//        mapa.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         rastreador = new Rastreador(this, mapa, messagem, tel);
         rastreador.carregaLocationProvider();
