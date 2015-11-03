@@ -62,7 +62,7 @@ public class Rastreador implements View.OnClickListener, LocationListener, Googl
         }
 
         if (!isEnabledGPS && !isEnabledNetWork) {
-            msg.mostra("Erro de Location Provider", "Desculpe, mas não foi possível carregar o GPS.");
+            msg.mostra("Erro de Location Provider", "Desculpe, mas não foi possível carregar o ratreador.");
         }
 
     }
