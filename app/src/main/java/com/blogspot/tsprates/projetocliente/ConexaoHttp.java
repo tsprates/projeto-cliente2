@@ -26,9 +26,9 @@ public class ConexaoHttp {
     /**
      * Método que envia as coordenadas ao servidor.
      *
-     * @param url
-     * @param parametros
-     * @return
+     * @param url Url serviço.
+     * @param parametros Url parâmetros serviço.
+     * @return Resposta servidor.
      */
     public static String em(String url, Map<String, String> parametros) {
         resultado = new StringBuilder();
@@ -77,7 +77,7 @@ public class ConexaoHttp {
             buffer.close();
 
             if (http.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                return "ERROR";
+                return null;
             }
 
         } catch (MalformedURLException e) {

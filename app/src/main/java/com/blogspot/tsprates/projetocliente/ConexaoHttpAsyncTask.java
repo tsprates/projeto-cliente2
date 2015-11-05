@@ -21,7 +21,7 @@ public class ConexaoHttpAsyncTask extends AsyncTask<String, Void, String> {
     private Context contexto;
 
     /**
-     * Construtor.
+     * Constructor.
      *
      * @param c
      */
@@ -34,23 +34,22 @@ public class ConexaoHttpAsyncTask extends AsyncTask<String, Void, String> {
         carregando.dismiss();
 
         // verifica resposta do servidor
-        String conteudoRetornado = result.trim().replace("<[^>]*>", "");
-        String resposta;
+        String strResult, json = null;
 
-        try {
-            resposta = (String) new JSONObject(conteudoRetornado).get("result");
-        } catch (JSONException e) {
-            resposta = "";
+        if (result != null) {
+            strResult = result.trim().replace("<[^>]*>", "");
+            try {
+                json = (String) new JSONObject(strResult).get("result");
+            } catch (JSONException e) {
+            }
         }
 
-        String msgResultado;
-        if (Boolean.parseBoolean(resposta)) {
-            msgResultado = "Coordenadas enviada com sucesso.";
-        } else {
-            msgResultado = "Ocorreu um erro.";
-        }
+        String msg = ((Boolean.parseBoolean(json))
+                ? "Coordenadas enviada com sucesso."
+                : "Ocorreu um erro.");
 
-        Toast.makeText(contexto, msgResultado, Toast.LENGTH_LONG).show();
+
+        Toast.makeText(contexto, msg, Toast.LENGTH_LONG).show();
     }
 
     protected void onPreExecute() {

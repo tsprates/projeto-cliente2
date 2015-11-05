@@ -2,7 +2,7 @@ package com.blogspot.tsprates.projetocliente;
 
 public class Config {
     /**
-     * 
+     *
      */
     public static final String URL_SERVIDOR = "http://tracking-moc.esy.es/postdata.php";
 

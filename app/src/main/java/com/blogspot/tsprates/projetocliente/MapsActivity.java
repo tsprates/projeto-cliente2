@@ -13,7 +13,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //    private GoogleMap mMap;
     private GoogleMap mapa;
     private Telefone tel;
-    private Messagem messagem;
+    private Mensagem messagem;
     private Rastreador rastreador;
 
     @Override
@@ -28,7 +28,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tel = new Telefone(this);
-        messagem = new Messagem(this);
+        messagem = new Mensagem(this);
 
     }
 
@@ -46,24 +46,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mapa = googleMap;
 
-        mapa.setMyLocationEnabled(true);
+//        mapa.setMyLocationEnabled(true);
         mapa.getUiSettings().setZoomControlsEnabled(true);
-
-        messagem.mostra("AVISO", "Clique no marcador para enviar as coordenadas de longitude e latitude.");
+        mapa.getUiSettings().setMapToolbarEnabled(true);
 
 //        Location loc = mapa.getMyLocation();
 //        LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
 //        mapa.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         rastreador = new Rastreador(this, mapa, messagem, tel);
-        rastreador.carregaLocationProvider();
+        rastreador.carregaLocationProvider2();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (rastreador != null) {
-            rastreador.carregaLocationProvider();
+            rastreador.carregaLocationProvider2();
         }
     }
 
